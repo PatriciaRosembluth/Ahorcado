@@ -1,0 +1,11 @@
+<h2><p align="center">Adivina la palabra</p></h2>
+
+
+<form name="Jugar" action="/juego" method="post">
+  <center><%= $placeholder%></center>
+  <p>
+  Ingrese una letra: <input name="letra" type="text"><input type="submit" value="Ingresar">
+  <p>
+  Numero de intentos: <%=$total_chances - $wrong_try%>
+  <p>
+</form></center>
