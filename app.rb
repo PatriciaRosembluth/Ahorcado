@@ -3,16 +3,19 @@ require 'sinatra'
 #llenar diccionario de palabras
 def iniciar_juego
 $words ||= []
-$words << 'imagen'
-$words << 'eucalipto'
-$words << 'casa'
+$latest_items ||= [] 
+$words << 'camioneta'
+$words << 'licuadora'
+$words << 'dormitorio'
+$words << 'escritorio'
+$words << 'lapicero'
 
 #definir parametros de juego
 $total_chances = 5
 $wrong_try = 0
 $right_guess = ''
 char = ''
-$track = ''
+$clue = ''
 	
 end
 
@@ -33,15 +36,18 @@ post '/juego' do
 end
 
 post '/pedir_pista' do
-	$track = $word[rand($word.length) - 1]
-	while $right_guess.include? $track
-		$track = $word[rand($word.length) - 1]
+	$clue = $word[rand($word.length) - 1]
+	while $right_guess.include? $clue
+		$clue = $word[rand($word.length) - 1]
 	end
-		params[:letra] = $track
+		params[:letra] = $clue
 		$wrong_try += 1	 
 		game
 		erb :juego
-	
+end
+
+post '/ver_partidas' do
+  erb :resultadoPartidas
 end
 
 
@@ -49,6 +55,7 @@ def get_placeholder
   $placeholder = ''
   $word.chars { |char| $placeholder += ($right_guess.include? char)? char : '#'}
   unless $placeholder.include? '#'
+  	$latest_items << 'Gano'+ ' ' + $word.to_s
 	 erb :win
 	end
 end
@@ -58,7 +65,7 @@ def game ()
 	if $word.include? char
 		if($right_guess.include? char)
 	    	#mensaje 'ya se ingreso la letra'
-	      erb :bienvenida
+	      erb :juego
 	    else
 	      $right_guess = $right_guess + char.to_s
 	      get_placeholder
@@ -68,6 +75,7 @@ def game ()
 	  #mensaje de error
 	   $wrong_try += 1	 
 	   if ($wrong_try == $total_chances)
+	    $latest_items << 'Perdio' + ' ' + $word.to_s
 	    erb :lose      
 	      
 	    else
