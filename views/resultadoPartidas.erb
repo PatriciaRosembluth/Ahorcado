@@ -1,3 +1,10 @@
-<% $latest_items.each do |element| %>
-  <li><%= element %></li>
-<% end %>
+<%if $latest_items.length <= 3%>
+	<% (0..$latest_items.length-1).each do |i| %>
+	  <li><%= $latest_items[i] %></li>
+	<% end %>
+<%else%>
+
+	<% ($latest_items.length-3..$latest_items.length-1).each do |i| %>
+	  <li><%= $latest_items[i] %></li>
+	<% end %>
+<%end%>
