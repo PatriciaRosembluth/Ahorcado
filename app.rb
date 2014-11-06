@@ -34,10 +34,13 @@ end
 
 post '/pedir_pista' do
 	$track = $word[rand($word.length) - 1]
-	params[:letra] = $track
-	$wrong_try += 1	 
-	game
-	erb :juego
+	while $right_guess.include? $track
+		$track = $word[rand($word.length) - 1]
+	end
+		params[:letra] = $track
+		$wrong_try += 1	 
+		game
+		erb :juego
 	
 end
 
