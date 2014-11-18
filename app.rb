@@ -56,7 +56,6 @@ def get_placeholder
   $word.chars { |char| $placeholder += ($right_guess.include? char)? char : '#'}
   unless $placeholder.include? '#'
   	$latest_items << 'Gano'+ ' ' + $word.to_s
-  	$latest_items.reverse  
 	 erb :win
 	end
 end
@@ -77,7 +76,6 @@ def game ()
 	   $wrong_try += 1	 
 	   if ($wrong_try == $total_chances)
 	    $latest_items << 'Perdio' + ' ' + $word.to_s
-	    $latest_items.reverse  
 	    erb :lose      
 	      
 	    else
